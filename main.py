@@ -94,6 +94,51 @@ def scale(ratio):
         [0, 0, 0, 1]
     ])
     glMultMatrixf(m)
+def ortho(left, right, bottom, top, near, far):
+    m = np.array([
+        [2/(right-left), 0, 0, -(right+left)/(right-left)],
+        [0, 2/(top-bottom), 0, -(top+bottom)/(top-bottom)],
+        [0, 0, -2/(far-near), -(far+near)/(far-near)],
+        [0, 0, 0, 1]
+    ])
+    glMultMatrixf(m)
+def frustum(left, right, bottom, top, near, far):
+    m = np.array([
+        [2*near/(right-left), 0, (right+left)/(right-left), 0],
+        [0, 2*near/(top-bottom), (top+bottom)/(top-bottom), 0],
+        [0, 0, -(far+near)/(far-near), -2*far*near/(far-near)],
+        [0, 0, -1, 0]
+    ])
+    #m=np.transpose(m)
+    glMultMatrixf(m)
+pos_luz = [0,0, 0, 1]
+
+def renderLight():
+	glEnable(GL_LIGHT0)
+	glEnable(GL_LIGHTING)
+
+	glEnable(GL_DEPTH_TEST)
+	glDepthFunc(GL_LEQUAL)
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
+	
+	glShadeModel(GL_SMOOTH)
+	
+	glEnable(GL_COLOR_MATERIAL)
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+	glEnable(GL_TEXTURE_2D)
+	specReflection = [1.0, 1.0, 1.0, 1.0]
+	glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection)
+	glMateriali(GL_FRONT, GL_SHININESS, 30)
+	glLightfv(GL_LIGHT0, GL_POSITION, pos_luz)
+    
+
+def Point():
+    glPointSize(10)
+
+    glBegin(GL_POINTS)
+    glColor(1,1,1)
+    glVertex3f(pos_luz[0], pos_luz[1], pos_luz[2])
+    glEnd()
 
 def Cube():
     glBegin(GL_LINES)
@@ -108,8 +153,10 @@ def main():
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
-
+    renderLight()
+    Point()
     glTranslatef(0.0,0.0, -8)
+    
 
     while True:
         for event in pygame.event.get():
@@ -126,6 +173,24 @@ def main():
                     rotateXYZ(event.rel[1], event.rel[0], 0)
                 if pygame.mouse.get_pressed()[2]:
                     translateXYZ(event.rel[0]/100, -event.rel[1]/100, 0)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_o:
+                    glLoadIdentity()
+                    ortho(-1, 1, -1, 1, -1, 1)
+                    scale(0.5)
+                if event.key == pygame.K_p:
+                    glLoadIdentity()
+                    frustum(-1, 1, -1, 1, 1, 500)
+                    glTranslatef(0.0,0.0, -8)
+
+                if event.key == pygame.K_r:
+                    glLoadIdentity()
+                    gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+                    glTranslatef(0.0,0.0, -8)
+
+
+                    
+                    
                 
         
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
