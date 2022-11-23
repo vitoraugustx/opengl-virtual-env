@@ -118,7 +118,7 @@ def frustum(left, right, bottom, top, near, far):
 
 
 def loadTexture():
-    textureSurface = pygame.image.load('imgs/crate.jpg')
+    textureSurface = pygame.image.load('imgs/texture.jpg')
     textureData = pygame.image.tostring(textureSurface, "RGBA", 1)
     width = textureSurface.get_width()
     height = textureSurface.get_height()
