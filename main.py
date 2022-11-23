@@ -94,6 +94,7 @@ def scale(ratio):
         [0, 0, 0, 1]
     ])
     glMultMatrixf(m)
+
 def ortho(left, right, bottom, top, near, far):
     m = np.array([
         [2/(right-left), 0, 0, -(right+left)/(right-left)],
@@ -102,6 +103,7 @@ def ortho(left, right, bottom, top, near, far):
         [0, 0, 0, 1]
     ])
     glMultMatrixf(m)
+
 def frustum(left, right, bottom, top, near, far):
     m = np.array([
         [2*near/(right-left), 0, (right+left)/(right-left), 0],
@@ -111,7 +113,28 @@ def frustum(left, right, bottom, top, near, far):
     ])
     #m=np.transpose(m)
     glMultMatrixf(m)
-pos_luz = [0,0, 0, 1]
+
+pos_luz = [0, 0, 0, 1]
+
+def loadTexture():
+    textureSurface = pygame.image.load('imgs/crate.jpg')
+    textureData = pygame.image.tostring(textureSurface, "RGBA", 1)
+    width = textureSurface.get_width()
+    height = textureSurface.get_height()
+
+    glEnable(GL_TEXTURE_2D)
+    texid = glGenTextures(1)
+
+    glBindTexture(GL_TEXTURE_2D, texid)
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData)
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+
+    return texid
 
 def renderLight():
 	glEnable(GL_LIGHT0)
@@ -131,7 +154,6 @@ def renderLight():
 	glMateriali(GL_FRONT, GL_SHININESS, 30)
 	glLightfv(GL_LIGHT0, GL_POSITION, pos_luz)
     
-
 def Point():
     glPointSize(10)
 
@@ -140,17 +162,72 @@ def Point():
     glVertex3f(pos_luz[0], pos_luz[1], pos_luz[2])
     glEnd()
 
-def Cube():
-    glBegin(GL_LINES)
-    for edge in edges:
-        for vertex in edge:
-            glVertex3fv(verticies[vertex])
-    glEnd()
+def Cube(lines):
+    if lines:
+        glBegin(GL_LINES)
+        for edge in edges:
+            glColor3fv((1, 1, 1))
+            for vertex in edge:
+                glVertex3fv(vertices[vertex])
+        glEnd()
+    else:
+        glBegin(GL_QUADS)
+        glTexCoord2f(0.0, 0.0)
+        glVertex3f(-1.0, -1.0,  1.0)
+        glTexCoord2f(1.0, 0.0)
+        glVertex3f(1.0, -1.0,  1.0)
+        glTexCoord2f(1.0, 1.0)
+        glVertex3f(1.0,  1.0,  1.0)
+        glTexCoord2f(0.0, 1.0)
+        glVertex3f(-1.0,  1.0,  1.0)
+        glTexCoord2f(1.0, 0.0)
+        glVertex3f(-1.0, -1.0, -1.0)
+        glTexCoord2f(1.0, 1.0)
+        glVertex3f(-1.0,  1.0, -1.0)
+        glTexCoord2f(0.0, 1.0)
+        glVertex3f(1.0,  1.0, -1.0)
+        glTexCoord2f(0.0, 0.0)
+        glVertex3f(1.0, -1.0, -1.0)
+        glTexCoord2f(0.0, 1.0)
+        glVertex3f(-1.0,  1.0, -1.0)
+        glTexCoord2f(0.0, 0.0)
+        glVertex3f(-1.0,  1.0,  1.0)
+        glTexCoord2f(1.0, 0.0)
+        glVertex3f(1.0,  1.0,  1.0)
+        glTexCoord2f(1.0, 1.0)
+        glVertex3f(1.0,  1.0, -1.0)
+        glTexCoord2f(1.0, 1.0)
+        glVertex3f(-1.0, -1.0, -1.0)
+        glTexCoord2f(0.0, 1.0)
+        glVertex3f(1.0, -1.0, -1.0)
+        glTexCoord2f(0.0, 0.0)
+        glVertex3f(1.0, -1.0,  1.0)
+        glTexCoord2f(1.0, 0.0)
+        glVertex3f(-1.0, -1.0,  1.0)
+        glTexCoord2f(1.0, 0.0)
+        glVertex3f(1.0, -1.0, -1.0)
+        glTexCoord2f(1.0, 1.0)
+        glVertex3f(1.0,  1.0, -1.0)
+        glTexCoord2f(0.0, 1.0)
+        glVertex3f(1.0,  1.0,  1.0)
+        glTexCoord2f(0.0, 0.0)
+        glVertex3f(1.0, -1.0,  1.0)
+        glTexCoord2f(0.0, 0.0)
+        glVertex3f(-1.0, -1.0, -1.0)
+        glTexCoord2f(1.0, 0.0)
+        glVertex3f(-1.0, -1.0,  1.0)
+        glTexCoord2f(1.0, 1.0)
+        glVertex3f(-1.0,  1.0,  1.0)
+        glTexCoord2f(0.0, 1.0)
+        glVertex3f(-1.0,  1.0, -1.0)
+        glEnd()
 
 def main():
     pygame.init()
     display = (800,600)
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+
+    loadTexture()
 
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
     renderLight()
@@ -188,13 +265,10 @@ def main():
                     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
                     glTranslatef(0.0,0.0, -8)
 
-
-                    
-                    
-                
+  
         
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        Cube()
+        Cube(False)
         pygame.display.flip()
         pygame.time.wait(10)
         
