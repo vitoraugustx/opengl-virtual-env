@@ -32,7 +32,8 @@ edges = (
     (5,7)
     )
 
-pos_luz = [20,8,-5,1]
+pos_luz = [10,8,-5,3]
+
 def rotateX(angle):
     m = np.array([
         [1, 0, 0, 0], 
@@ -115,10 +116,8 @@ def frustum(left, right, bottom, top, near, far):
     #m=np.transpose(m)
     glMultMatrixf(m)
 
-
-
 def loadTexture():
-    textureSurface = pygame.image.load('imgs/texture.jpg')
+    textureSurface = pygame.image.load('imgs/crate.jpg')
     textureData = pygame.image.tostring(textureSurface, "RGBA", 1)
     width = textureSurface.get_width()
     height = textureSurface.get_height()
@@ -137,27 +136,26 @@ def loadTexture():
 
     return texid
 
-def renderLight():
-	glEnable(GL_LIGHT0)
-	glEnable(GL_LIGHTING)
-
+def setZBuffer():
 	glEnable(GL_DEPTH_TEST)
-	glDepthFunc(GL_LEQUAL)
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
+	# glEnable(GL_LIGHT0)
+	# glEnable(GL_LIGHTING)
+
+	# glDepthFunc(GL_LEQUAL)
+	# glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
 	
-	glShadeModel(GL_SMOOTH)
+	# glShadeModel(GL_SMOOTH)
 	
-	glEnable(GL_COLOR_MATERIAL)
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
-	glEnable(GL_TEXTURE_2D)
-	specReflection = [1.0, 1.0, 1.0, 1.0]
-	glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection)
-	glMateriali(GL_FRONT, GL_SHININESS, 30)
-	glLightfv(GL_LIGHT0, GL_POSITION, pos_luz)
+	# glEnable(GL_COLOR_MATERIAL)
+	# glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+	# glEnable(GL_TEXTURE_2D)
+	# specReflection = [1.0, 1.0, 1.0, 1.0]
+	# glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection)
+	# glMateriali(GL_FRONT, GL_SHININESS, 30)
+	# glLightfv(GL_LIGHT0, GL_POSITION, pos_luz)
     
 def Point():
     glPointSize(10)
-
     glBegin(GL_POINTS)
     glColor(1,1,1)
     glVertex3f(pos_luz[0], pos_luz[1], pos_luz[2])
@@ -231,7 +229,7 @@ def main():
     loadTexture()
 
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
-    renderLight()
+    setZBuffer()
     Point()
     glTranslatef(0.0,0.0, -8)
     
@@ -259,12 +257,12 @@ def main():
                 if event.key == pygame.K_p:
                     glLoadIdentity()
                     frustum(-1, 1, -1, 1, 1, 500)
-                    glTranslatef(0.0,0.0, -8)
+                    translateXYZ(0.0,0.0, -8)
 
                 if event.key == pygame.K_r:
                     glLoadIdentity()
                     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
-                    glTranslatef(0.0,0.0, -8)
+                    translateXYZ(0.0,0.0, -8)
 
   
         
