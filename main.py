@@ -32,6 +32,7 @@ edges = (
     (5,7)
     )
 
+pos_luz = [20,8,-5,1]
 def rotateX(angle):
     m = np.array([
         [1, 0, 0, 0], 
@@ -114,7 +115,7 @@ def frustum(left, right, bottom, top, near, far):
     #m=np.transpose(m)
     glMultMatrixf(m)
 
-pos_luz = [0, 0, 0, 1]
+
 
 def loadTexture():
     textureSurface = pygame.image.load('imgs/crate.jpg')
