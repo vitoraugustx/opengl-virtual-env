@@ -2,7 +2,7 @@ import pygame
 
 import pywavefront
 from pywavefront import Wavefront
-from ObjLoader import ObjLoader
+from objLoader import ObjLoader
 from OpenGL.GL.shaders import compileProgram, compileShader
 from pygame.locals import *
 import pyrr
@@ -11,7 +11,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 import numpy as np
-from light import *
+
 class Window():
     vertex_src = """
     # version 330
@@ -54,7 +54,7 @@ class Window():
         pygame.display.set_mode(self.display, DOUBLEBUF|OPENGL)
 
          # load here the 3d meshes
-        self.chibi_indices, self.chibi_buffer = ObjLoader.load_model("blender_objs/logo_furg.obj")
+        self.chibi_indices, self.chibi_buffer = ObjLoader.load_model("src/blender_objs/logo_furg.obj")
         self.shader = compileProgram(compileShader(self.vertex_src, GL_VERTEX_SHADER), compileShader(self.fragment_src, GL_FRAGMENT_SHADER))
 
         # VAO and VBO
@@ -182,27 +182,6 @@ class Window():
         glUniformMatrix4fv(self.proj_loc, 1, GL_FALSE, self.projection)
 
 
-
-    def loadTexture(self):
-        textureSurface = pygame.image.load('imgs/crate.jpg')
-        textureData = pygame.image.tostring(textureSurface, "RGBA", 1)
-        width = textureSurface.get_width()
-        height = textureSurface.get_height()
-
-        glEnable(GL_TEXTURE_2D)
-        texid = glGenTextures(1)
-
-        glBindTexture(GL_TEXTURE_2D, texid)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
-                    0, GL_RGBA, GL_UNSIGNED_BYTE, textureData)
-
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-
-        return texid
-
     def setZBuffer(self):
         glEnable(GL_DEPTH_TEST)
         
@@ -266,9 +245,7 @@ class Window():
                     if event.key == pygame.K_p:
                         glLoadIdentity()
                         self.frustum(-1, 1, -1, 1, 1, 500)
-                    if event.key == pygame.K_l:
-                        self.Phong()
-                    
+
                         
             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
             self.draw()      
