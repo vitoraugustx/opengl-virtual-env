@@ -11,7 +11,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 import numpy as np
-
+from light import *
 class Window():
     vertex_src = """
     # version 330
@@ -242,65 +242,6 @@ class Window():
         glVertex3f(pos_luz[0], pos_luz[1], pos_luz[2])
         glEnd()
 
-    def Cube(lines):
-        if lines:
-            glBegin(GL_LINES)
-            for edge in edges:
-                glColor3fv((1, 1, 1))
-                for vertex in edge:
-                    glVertex3fv(verticies[vertex])
-            glEnd()
-        else:
-            glBegin(GL_QUADS)
-            glTexCoord2f(0.0, 0.0)
-            glVertex3f(-1.0, -1.0,  1.0)
-            glTexCoord2f(1.0, 0.0)
-            glVertex3f(1.0, -1.0,  1.0)
-            glTexCoord2f(1.0, 1.0)
-            glVertex3f(1.0,  1.0,  1.0)
-            glTexCoord2f(0.0, 1.0)
-            glVertex3f(-1.0,  1.0,  1.0)
-            glTexCoord2f(1.0, 0.0)
-            glVertex3f(-1.0, -1.0, -1.0)
-            glTexCoord2f(1.0, 1.0)
-            glVertex3f(-1.0,  1.0, -1.0)
-            glTexCoord2f(0.0, 1.0)
-            glVertex3f(1.0,  1.0, -1.0)
-            glTexCoord2f(0.0, 0.0)
-            glVertex3f(1.0, -1.0, -1.0)
-            glTexCoord2f(0.0, 1.0)
-            glVertex3f(-1.0,  1.0, -1.0)
-            glTexCoord2f(0.0, 0.0)
-            glVertex3f(-1.0,  1.0,  1.0)
-            glTexCoord2f(1.0, 0.0)
-            glVertex3f(1.0,  1.0,  1.0)
-            glTexCoord2f(1.0, 1.0)
-            glVertex3f(1.0,  1.0, -1.0)
-            glTexCoord2f(1.0, 1.0)
-            glVertex3f(-1.0, -1.0, -1.0)
-            glTexCoord2f(0.0, 1.0)
-            glVertex3f(1.0, -1.0, -1.0)
-            glTexCoord2f(0.0, 0.0)
-            glVertex3f(1.0, -1.0,  1.0)
-            glTexCoord2f(1.0, 0.0)
-            glVertex3f(-1.0, -1.0,  1.0)
-            glTexCoord2f(1.0, 0.0)
-            glVertex3f(1.0, -1.0, -1.0)
-            glTexCoord2f(1.0, 1.0)
-            glVertex3f(1.0,  1.0, -1.0)
-            glTexCoord2f(0.0, 1.0)
-            glVertex3f(1.0,  1.0,  1.0)
-            glTexCoord2f(0.0, 0.0)
-            glVertex3f(1.0, -1.0,  1.0)
-            glTexCoord2f(0.0, 0.0)
-            glVertex3f(-1.0, -1.0, -1.0)
-            glTexCoord2f(1.0, 0.0)
-            glVertex3f(-1.0, -1.0,  1.0)
-            glTexCoord2f(1.0, 1.0)
-            glVertex3f(-1.0,  1.0,  1.0)
-            glTexCoord2f(0.0, 1.0)
-            glVertex3f(-1.0,  1.0, -1.0)
-            glEnd()
 
     def main(self):
         while True:
