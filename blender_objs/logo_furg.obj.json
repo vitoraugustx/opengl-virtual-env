@@ -1,0 +1,39 @@
+{
+  "created_at": "2022-11-25T09:38:07.555211",
+  "version": "0.1",
+  "mtllibs": [
+    "logo_furg.mtl"
+  ],
+  "vertex_buffers": [
+    {
+      "material": "SVGMat.098",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 0,
+      "byte_length": 75840
+    },
+    {
+      "material": "SVGMat.104",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 75840,
+      "byte_length": 234624
+    },
+    {
+      "material": "SVGMat.107",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 310464,
+      "byte_length": 240384
+    },
+    {
+      "material": "SVGMat.110",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 550848,
+      "byte_length": 196416
+    },
+    {
+      "material": "SVGMat.178",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 747264,
+      "byte_length": 149184
+    }
+  ]
+}
