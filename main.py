@@ -6,7 +6,7 @@ from OpenGL.GLU import *
 
 import numpy as np
 
-verticies = (
+vertices = (
     (1, -1, -1),
     (1, 1, -1),
     (-1, 1, -1),
@@ -117,7 +117,7 @@ def frustum(left, right, bottom, top, near, far):
     glMultMatrixf(m)
 
 def loadTexture():
-    textureSurface = pygame.image.load('imgs/crate.jpg')
+    textureSurface = pygame.image.load('src/imgs/crate.jpg')
     textureData = pygame.image.tostring(textureSurface, "RGBA", 1)
     width = textureSurface.get_width()
     height = textureSurface.get_height()
@@ -246,7 +246,7 @@ def main():
                     scale(0.9)
             if event.type == pygame.MOUSEMOTION:
                 if pygame.mouse.get_pressed()[0]:
-                    rotateXYZ(event.rel[1], event.rel[0], 0)
+                    rotateXYZ(-event.rel[1], -event.rel[0], 0)
                 if pygame.mouse.get_pressed()[2]:
                     translateXYZ(event.rel[0]/100, -event.rel[1]/100, 0)
             if event.type == pygame.KEYDOWN:
