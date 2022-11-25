@@ -76,7 +76,7 @@ class Window():
         glEnableVertexAttribArray(2)
 
         glUseProgram(self.shader)
-        glClearColor(0, 0.1, 0.1, 1)
+        glClearColor(1, 1, 1, 1)
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
