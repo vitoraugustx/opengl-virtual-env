@@ -112,7 +112,7 @@ class OBJ:
                     glBindTexture(GL_TEXTURE_2D, mtl['texture_Kd'])
                 else:
                     glColor(*mtl['Kd'])
-            glBegin(GL_POLYGON)
+            glBegin(GL_TRIANGLES)
             for i in range(len(vertices)):
                 if normals[i] > 0:
                     glNormal3fv(self.normals[normals[i] - 1])

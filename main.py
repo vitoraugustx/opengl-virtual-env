@@ -1,39 +1,3 @@
-
-vertex_src = """
-# version 330
-
-layout(location = 0) in vec3 a_position;
-layout(location = 1) in vec2 a_texture;
-layout(location = 2) in vec3 a_normal;
-
-uniform mat4 model;
-uniform mat4 projection;
-uniform mat4 view;
-
-out vec2 v_texture;
-
-void main()
-{
-    gl_Position = projection * view * model * vec4(a_position, 1.0);
-    v_texture = a_texture;
-}
-"""
-
-fragment_src = """
-# version 330
-
-in vec2 v_texture;
-
-out vec4 out_color;
-
-uniform sampler2D s_texture;
-
-void main()
-{
-    out_color = texture(s_texture, v_texture);
-}
-"""
-
 import pygame
 import numpy as np
 from OpenGL.GL import *
@@ -91,6 +55,16 @@ def scale(rate):
         [0,0,0,1]
     ])
     glMultMatrixf(m)
+
+def ortho(left, right, bottom, top, near, far):
+    m = np.array([
+        [2/(right-left), 0, 0, -(right+left)/(right-left)],
+        [0, 2/(top-bottom), 0, -(top+bottom)/(top-bottom)],
+        [0, 0, -2/(far-near), -(far+near)/(far-near)],
+        [0, 0, 0, 1]
+    ])
+    glMultMatrixf(m)
+
 def frustum(left, right, bottom, top, near, far):
         glLoadIdentity()
         
@@ -105,18 +79,23 @@ def frustum(left, right, bottom, top, near, far):
         glTranslatef(0, 0, -10)
         scale(0.9)
     
+def setZBuffer():
+	glEnable(GL_DEPTH_TEST)
+    
 
 pygame.init()
-display = (640, 480)
+display = (700, 500)
 
 pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL)
 clock = pygame.time.Clock()
 
+gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+setZBuffer()
+glTranslatef(0.0,0.0, -30)
+scale(rate=0.5)
+
 model = OBJ('src/blender_objs/logo_furg.obj')
-box = model.box()
-center = [(box[0][i] + box[1][i])/2 for i in range(3)]
-size = [box[1][i] - box[0][i] for i in range(3)]
-scale(0.1)
+
 run = True
 while run:
     clock.tick(100)
@@ -139,21 +118,23 @@ while run:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_o:
                     glLoadIdentity()
-                    scale(0.1)
+                    ortho(-1, 1, -1, 1, -1, 1)
+                    scale(0.06)
 
-    
+                if event.key == pygame.K_r:
+                    glLoadIdentity()
+                    gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+                    glTranslatef(0.0,0.0, -30)
+                    scale(rate=0.5)
+
                 if event.key == pygame.K_p:
-                    frustum(-1, 1, -1, 1, 1, 100)
-                    
-                    
-   
-                    
+                    frustum(-1, 1, -1, 1, 1, 100)         
                     
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     
     glPushMatrix()
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+    
     model.render()
     glPopMatrix()
 
