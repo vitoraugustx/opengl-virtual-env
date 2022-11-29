@@ -22,6 +22,7 @@ def rotateY(angle):
         [0,0,0,1]
     ])
     glMultMatrixf(m)
+
 def rotateZ(angle):
     m=np.array([
         [math.cos(angle),-math.sin(angle),0,0],
@@ -30,6 +31,7 @@ def rotateZ(angle):
         [0,0,0,1]
     ])
     glMultMatrixf(m)
+
 def rotateXYZ(x,y,z):
     m=np.array([
         [np.cos(y*np.pi/180)*np.cos(z*np.pi/180), -np.cos(y*np.pi/180)*np.sin(z*np.pi/180), np.sin(y*np.pi/180), 0],
@@ -38,6 +40,7 @@ def rotateXYZ(x,y,z):
         [0, 0, 0, 1]
     ])
     glMultMatrixf(m)
+
 def translateXYZ(x,y,z):
 
     m=np.array([
@@ -47,6 +50,7 @@ def translateXYZ(x,y,z):
         [x,y,z,1]
     ])
     glMultMatrixf(m)
+
 def scale(rate):
     m=np.array([
         [rate,0,0,0],
@@ -91,10 +95,10 @@ clock = pygame.time.Clock()
 
 gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
 setZBuffer()
-glTranslatef(0.0,0.0, -30)
+glTranslatef(0.0,0.0, -15)
 scale(rate=0.5)
 
-model = OBJ('src/blender_objs/logo_furg_2.obj')
+model = OBJ('src/blender_objs/logo_furg_3.obj')
 
 run = True
 while run:
@@ -124,7 +128,7 @@ while run:
                 if event.key == pygame.K_r:
                     glLoadIdentity()
                     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
-                    glTranslatef(0.0,0.0, -30)
+                    glTranslatef(0.0,0.0, -15)
                     scale(rate=0.5)
 
                 if event.key == pygame.K_p:
