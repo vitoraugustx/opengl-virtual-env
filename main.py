@@ -94,7 +94,7 @@ setZBuffer()
 glTranslatef(0.0,0.0, -30)
 scale(rate=0.5)
 
-model = OBJ('src/blender_objs/logo_furg.obj')
+model = OBJ('src/blender_objs/logo_furg_2.obj')
 
 run = True
 while run:
@@ -110,7 +110,7 @@ while run:
                     scale(0.9)
             if event.type == pygame.MOUSEMOTION:
                 if pygame.mouse.get_pressed()[0]:
-                    rotateXYZ(event.rel[1], event.rel[0], 0)
+                    rotateXYZ(-event.rel[1], -event.rel[0], 0)
                     
                 if pygame.mouse.get_pressed()[2]:
                     translateXYZ(event.rel[0]/100, -event.rel[1]/100, 0)
