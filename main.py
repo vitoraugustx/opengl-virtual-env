@@ -131,7 +131,7 @@ scale(rate=0.5)
 
 setLight()
 
-model = OBJ('src/blender_objs/logo_furg_3.obj')
+model = OBJ('src/blender_objs/logo_furg.obj')
 
 run = True
 while run:
@@ -158,6 +158,12 @@ while run:
 
         if keys[pygame.K_s]:
             translateXYZ(0, 0, -0.1)
+
+        if keys[pygame.K_RIGHT]:
+            rotateXYZ(0, 0, -1)
+        
+        if keys[pygame.K_LEFT]:
+            rotateXYZ(0, 0, 1)
 
 
         if event.type == pygame.KEYDOWN:
