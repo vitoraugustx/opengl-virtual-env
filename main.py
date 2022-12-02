@@ -155,7 +155,7 @@ scale(rate=0.5)
 setLight()
 
 # Carrega o modelo
-model = OBJ('src/blender_objs/logo_furg.obj')
+model = OBJ('src/blender_objs/logo_c3.obj')
 
 # Loop principal
 while True:
@@ -201,7 +201,7 @@ while True:
             if event.key == pygame.K_o:
                 glLoadIdentity()
                 ortho(-1, 1, -1, 1, -1, 1)
-                scale(0.05)
+                scale(0.13)
                 setLight()
 
             # Recarrega a cena
@@ -214,6 +214,7 @@ while True:
             
             # Projeção perspectiva
             if event.key == pygame.K_p:
+                translateXYZ(0, 0, 10)
                 frustum(-1, 1, -1, 1, 1, 100)  
                 setLight()
                   
