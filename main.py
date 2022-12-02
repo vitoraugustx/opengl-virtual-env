@@ -136,6 +136,7 @@ display = (800, 450)
 
 # Inicializa a tela
 pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
+pygame.display.set_caption("Sistemas gráficos - Logo FURG")
 
 # Definição de relógio para controle de FPS
 clock = pygame.time.Clock()
@@ -226,7 +227,7 @@ while True:
     glPushMatrix()
     model.render()
     glPopMatrix()
-    
+
     pygame.display.flip()
 
 pygame.quit()
