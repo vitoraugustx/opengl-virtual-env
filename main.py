@@ -96,7 +96,7 @@ def setZBuffer():
 	glEnable(GL_DEPTH_TEST)
 
 # Define as luzes
-def setLight():
+def setLight(intensity = 1):
     # Iluminação
     glEnable(GL_LIGHTING)
 
@@ -110,21 +110,39 @@ def setLight():
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
 
     # Luz 0
+    # Componentes de cor ambiente, difusa e especular
     glLightfv(GL_LIGHT0, GL_AMBIENT, (.1, .1, .1, 1))
     glLightfv(GL_LIGHT0, GL_DIFFUSE, (.2, .2, .2, 1))
     glLightfv(GL_LIGHT0, GL_SPECULAR, (.1, .1, .1, 1))
+    # Intensidade da luz
+    glLightfv(GL_LIGHT0, GL_CONSTANT_ATTENUATION, intensity)
+    glLightfv(GL_LIGHT0, GL_LINEAR_ATTENUATION, intensity)
+    glLightfv(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, intensity)
+    # Posição da luz
     glLight(GL_LIGHT0, GL_POSITION,  (0, 5, 8, 1))
 
     # Luz 1
+    # Componentes de cor ambiente, difusa e especular
     glLightfv(GL_LIGHT1, GL_AMBIENT, (.1, .1, .1, 1))
     glLightfv(GL_LIGHT1, GL_DIFFUSE, (.2, .2, .2, 1))
     glLightfv(GL_LIGHT1, GL_SPECULAR, (.1, .1, .1, 1))
+    # Intensidade da luz
+    glLightfv(GL_LIGHT1, GL_CONSTANT_ATTENUATION, intensity)
+    glLightfv(GL_LIGHT1, GL_LINEAR_ATTENUATION, intensity)
+    glLightfv(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, intensity)
+    # Posição da luz
     glLight(GL_LIGHT1, GL_POSITION,  (5, 0, 8, 1))
 
     # Luz 2
+    # Componentes de cor ambiente, difusa e especular
     glLightfv(GL_LIGHT2, GL_AMBIENT, (.1, .1, .1, 1))
     glLightfv(GL_LIGHT2, GL_DIFFUSE, (.2, .2, .2, 1))
     glLightfv(GL_LIGHT2, GL_SPECULAR, (.1, .1, .1, 1))
+    # Intensidade da luz
+    glLightfv(GL_LIGHT2, GL_CONSTANT_ATTENUATION, intensity)
+    glLightfv(GL_LIGHT2, GL_LINEAR_ATTENUATION, intensity)
+    glLightfv(GL_LIGHT2, GL_QUADRATIC_ATTENUATION, intensity)
+    # Posição da luz
     glLight(GL_LIGHT2, GL_POSITION,  (-5, 0, 8, 1))
 
 
@@ -132,11 +150,11 @@ def setLight():
 pygame.init()
 
 # Tamanho da tela
-display = (800, 450)
+display = (850, 450)
 
 # Inicializa a tela
 pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
-pygame.display.set_caption("Sistemas gráficos - Logo FURG")
+pygame.display.set_caption("Sistemas gráficos - Logos FURG e C3")
 
 # Definição de relógio para controle de FPS
 clock = pygame.time.Clock()
@@ -155,7 +173,8 @@ scale(rate=0.5)
 setLight()
 
 # Carrega o modelo
-model = OBJ('src/blender_objs/logo_c3.obj')
+model = OBJ('src/blender_objs/logo_furg.obj')
+#model = OBJ('src/blender_objs/logo_c3.obj')
 
 # Loop principal
 while True:
