@@ -94,7 +94,18 @@ def frustum(left, right, bottom, top, near, far):
 # Habilita o algoritmo z-buffer
 def setZBuffer():
 	glEnable(GL_DEPTH_TEST)
+def perspective(fov, aspect, near, far):
+    glLoadIdentity()
+    m=np.array([
+        [1/(aspect*np.tan(fov/2)), 0, 0, 0],
+        [0, 1/np.tan(fov/2), 0, 0],
+        [0, 0, -(far+near)/(far-near), -2*far*near/(far-near)],
+        [0, 0, -1, 0]
 
+    ])
+    glMultMatrixf(m.T)
+    glTranslatef(0, 0, -15)
+    scale(0.7)
 # Define as luzes
 def setLight(intensity = 1):
     # Iluminação
@@ -173,14 +184,12 @@ pygame.display.set_caption("Sistemas gráficos - Logos FURG e C3")
 clock = pygame.time.Clock()
 
 # Inicializa a projeção
-gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+perspective(45, display[0]/display[1], 0.1, 50.0)
 
 # Algoritmo de visualização
 setZBuffer()
 
-# Rearranjando a cena
-glTranslatef(0.0,0.0, -15)
-scale(rate=0.5)
+
 
 # Inicializa as luzes
 setLight()
@@ -238,10 +247,7 @@ while True:
 
             # Recarrega a cena
             if event.key == pygame.K_r:
-                glLoadIdentity()
-                gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
-                glTranslatef(0.0,0.0, -15)
-                scale(rate=0.5)
+                perspective(45, (display[0]/display[1]), 0.1, 50.0)
                 setLight()
             
             # Projeção perspectiva
@@ -249,7 +255,10 @@ while True:
                 translateXYZ(0, 0, 10)
                 frustum(-1, 1, -1, 1, 1, 100)  
                 setLight()
-                  
+            
+            
+    
+             
                     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
