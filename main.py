@@ -86,6 +86,18 @@ def frustum(left, right, bottom, top, near, far):
 def setZBuffer():
 	glEnable(GL_DEPTH_TEST)
     
+def perspective(fovy, aspect, near, far):
+    glLoadIdentity()
+    m=np.array([
+        [1/(aspect*math.tan(fovy/2)), 0, 0, 0],
+        [0, 1/math.tan(fovy/2), 0, 0],
+        [0, 0, -(far+near)/(far-near), -2*far*near/(far-near)],
+        [0, 0, -1, 0]
+    ])
+
+    glMultMatrixf(m.T)
+    glTranslatef(0, 0, -10)
+    scale(0.9)
 
 pygame.init()
 display = (700, 500)
@@ -142,7 +154,10 @@ while run:
                     scale(rate=0.5)
 
                 if event.key == pygame.K_p:
-                    frustum(-1, 1, -1, 1, 1, 100)         
+                    frustum(-1, 1, -1, 1, 1, 100)      
+                if event.key == pygame.K_z:
+                    perspective(45, (display[0]/display[1]), 0.1, 50.0)
+                       
                     
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
