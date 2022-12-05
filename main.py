@@ -47,7 +47,6 @@ def rotateXYZ(x,y,z):
 
 # Translação no eixo XYZ
 def translateXYZ(x,y,z):
-
     m=np.array([
         [1,0,0,0],
         [0,1,0,0],
@@ -79,7 +78,6 @@ def ortho(left, right, bottom, top, near, far):
 # Projeção perspectiva
 def frustum(left, right, bottom, top, near, far):
         glLoadIdentity()
-        
         m = np.array([
             [2*near/(right-left), 0, (right+left)/(right-left), 0],
             [0, 2*near/(top-bottom), (top+bottom)/(top-bottom), 0],
@@ -89,11 +87,12 @@ def frustum(left, right, bottom, top, near, far):
         projection = m
         glMultMatrixf(projection)
         glTranslatef(0, 0, -10)
-        scale(0.9)
+        scale(0.8)
     
 # Habilita o algoritmo z-buffer
 def setZBuffer():
 	glEnable(GL_DEPTH_TEST)
+
 def perspective(fov, aspect, near, far):
     glLoadIdentity()
     m=np.array([
@@ -101,11 +100,11 @@ def perspective(fov, aspect, near, far):
         [0, 1/np.tan(fov/2), 0, 0],
         [0, 0, -(far+near)/(far-near), -2*far*near/(far-near)],
         [0, 0, -1, 0]
-
     ])
     glMultMatrixf(m.T)
     glTranslatef(0, 0, -15)
     scale(0.7)
+
 # Define as luzes
 def setLight(intensity = 1):
     # Iluminação
@@ -169,7 +168,6 @@ def setLight(intensity = 1):
     # Posição da luz
     glLight(GL_LIGHT3, GL_POSITION,  (0, 0, 8, 1))
 
-
 # MAIN
 pygame.init()
 
@@ -183,20 +181,18 @@ pygame.display.set_caption("Sistemas gráficos - Logos FURG e C3")
 # Definição de relógio para controle de FPS
 clock = pygame.time.Clock()
 
-# Inicializa a projeção
+# Inicializa a projeção como perspectiva
 perspective(45, display[0]/display[1], 0.1, 50.0)
 
 # Algoritmo de visualização
 setZBuffer()
 
-
-
 # Inicializa as luzes
 setLight()
 
 # Carrega o modelo
-model = OBJ('src/blender_objs/logo_furg.obj')
-#model = OBJ('src/blender_objs/logo_c3.obj')
+#model = OBJ('src/blender_objs/logo_furg.obj')
+model = OBJ('src/blender_objs/logo_c3.obj')
 
 # Loop principal
 while True:
@@ -242,23 +238,19 @@ while True:
             if event.key == pygame.K_o:
                 glLoadIdentity()
                 ortho(-1, 1, -1, 1, -1, 1)
-                scale(0.13)
+                scale(0.09)
                 setLight()
 
-            # Recarrega a cena
+            # Recarrega a cena na projeção perspectiva
             if event.key == pygame.K_r:
                 perspective(45, (display[0]/display[1]), 0.1, 50.0)
                 setLight()
             
-            # Projeção perspectiva
+            # Projeção perspectiva alternativa (frustrum)
             if event.key == pygame.K_p:
                 translateXYZ(0, 0, 10)
-                frustum(-1, 1, -1, 1, 1, 100)  
+                frustum(-1, 1, 0, 1, 1, 50)  
                 setLight()
-            
-            
-    
-             
                     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
