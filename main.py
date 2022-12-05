@@ -91,7 +91,7 @@ def frustum(left, right, bottom, top, near, far):
         glTranslatef(0, 0, -10)
         scale(0.9)
     
-# Habilita o algoritmo de z-buffer
+# Habilita o algoritmo z-buffer
 def setZBuffer():
 	glEnable(GL_DEPTH_TEST)
 
@@ -104,6 +104,7 @@ def setLight(intensity = 1):
     glEnable(GL_LIGHT0)
     glEnable(GL_LIGHT1)
     glEnable(GL_LIGHT2)
+    glEnable(GL_LIGHT3)
 
     # Propriedades da cor do material
     glEnable(GL_COLOR_MATERIAL)
@@ -144,6 +145,18 @@ def setLight(intensity = 1):
     glLightfv(GL_LIGHT2, GL_QUADRATIC_ATTENUATION, intensity)
     # Posição da luz
     glLight(GL_LIGHT2, GL_POSITION,  (-5, 0, 8, 1))
+
+    # Luz 3
+    # Componentes de cor ambiente, difusa e especular
+    glLightfv(GL_LIGHT3, GL_AMBIENT, (.1, .1, .1, 1))
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, (.2, .2, .2, 1))
+    glLightfv(GL_LIGHT3, GL_SPECULAR, (.1, .1, .1, 1))
+    # Intensidade da luz
+    glLightfv(GL_LIGHT3, GL_CONSTANT_ATTENUATION, intensity)
+    glLightfv(GL_LIGHT3, GL_LINEAR_ATTENUATION, intensity)
+    glLightfv(GL_LIGHT3, GL_QUADRATIC_ATTENUATION, intensity)
+    # Posição da luz
+    glLight(GL_LIGHT3, GL_POSITION,  (0, 0, 8, 1))
 
 
 # MAIN
