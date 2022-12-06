@@ -67,14 +67,21 @@ def scale(rate):
     glMultMatrixf(m)
 
 # Projeção ortográfica
-def ortho(left, right, bottom, top, near, far):
-    m = np.array([
+def ortho():
+    m=np.array([
+        [1,0,0,0],
+        [0,1,0,0],
+        [0,0,-1,0],
+        [0,0,0,1]
+    ])
+    glMultMatrixf(m)
+    """ m = np.array([
         [2/(right-left), 0, 0, -(right+left)/(right-left)],
         [0, 2/(top-bottom), 0, -(top+bottom)/(top-bottom)],
         [0, 0, -2/(far-near), -(far+near)/(far-near)],
         [0, 0, 0, 1]
     ])
-    glMultMatrixf(m)
+    glMultMatrixf(m)"""
 
 # Projeção perspectiva
 def frustum(left, right, bottom, top, near, far):
@@ -241,7 +248,7 @@ while True:
             # Projeção ortográfica
             if event.key == pygame.K_o:
                 glLoadIdentity()
-                ortho(-1, 1, -1, 1, -1, 1)
+                ortho()
                 scale(0.13)
                 setLight()
 
